@@ -7,7 +7,9 @@
 // @todo: Функция удаления карточки
 
 // @todo: Вывести карточки на страницу
-
+import '../pages/index.css';
+import { initialCards } from './cards.js';
+import avatar from '../images/avatar.jpg';
 
 function createCards(cardDetails, deleteCallback) {
   const cardTemplate = document.querySelector("#card-template").content;
@@ -34,3 +36,5 @@ initialCards.forEach((cardDetails) => {
   const cardItems = createCards(cardDetails, deleteCards);
   plasesList.append(cardItems);
 });
+
+
