@@ -9,7 +9,13 @@
 // @todo: Вывести карточки на страницу
 import '../pages/index.css';
 import { initialCards } from './cards.js';
-import avatar from '../images/avatar.jpg';
+import { openModal, closeModal } from '../components/modal.js';
+
+// DOM элементы
+const editPopup = document.querySelector('.popup_type_edit');
+const placesList = document.querySelector('.places__list');
+const editButton = document.querySelector('.profile__edit-button');
+
 
 function createCards(cardDetails, deleteCallback) {
   const cardTemplate = document.querySelector("#card-template").content;
@@ -28,13 +34,18 @@ function createCards(cardDetails, deleteCallback) {
 
   return cardItems;
 }
+
 function deleteCards(cardItems) {
   cardItems.remove();
 }
-const plasesList = document.querySelector(".places__list");
+
+// Инициализация карточек
 initialCards.forEach((cardDetails) => {
   const cardItems = createCards(cardDetails, deleteCards);
-  plasesList.append(cardItems);
+  placesList.append(cardItems);
 });
 
-
+// Обработчик открытия попапа на кнопку редактирования
+editButton.addEventListener('click', () => {
+  openModal(editPopup);
+});
