@@ -12,7 +12,7 @@ export function closeModal(popup) {
 //закрытие по клавиже esc
 function handleEscape(evt) {
   if (evt.key === 'Escape') {
-    const popup = document.querySelector('.popup_is-opened'); // Находим открытый попап
+    const popup = document.querySelector('.popup_is-opened');
     closeModal(popup);
   }
 }
