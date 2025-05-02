@@ -7,15 +7,18 @@
 // @todo: Функция удаления карточки
 
 // @todo: Вывести карточки на страницу
-import '../pages/index.css';
-import { initialCards } from './cards.js';
-import { openModal, closeModal } from '../components/modal.js';
+import "../pages/index.css";
+import { initialCards } from "./cards.js";
+import { openModal, closeModal } from "../components/modal.js";
 
 // DOM элементы
-const editPopup = document.querySelector('.popup_type_edit');
-const placesList = document.querySelector('.places__list');
-const editButton = document.querySelector('.profile__edit-button');
-
+const editPopup = document.querySelector(".popup_type_edit");
+const placesList = document.querySelector(".places__list");
+const editButton = document.querySelector(".profile__edit-button");
+const newCardPopup = document.querySelector(".popup_type_new-card");
+const addButtonProfile = document.querySelector(".profile__add-button");
+const popup = document.querySelector(".popup");
+const popupTypeImage = document.querySelector(".popup_type_image");
 
 function createCards(cardDetails, deleteCallback) {
   const cardTemplate = document.querySelector("#card-template").content;
@@ -45,7 +48,50 @@ initialCards.forEach((cardDetails) => {
   placesList.append(cardItems);
 });
 
-// Обработчик открытия попапа на кнопку редактирования
-editButton.addEventListener('click', () => {
-  openModal(editPopup);
+// Обработчик открытия попапа по кнопке редактировать
+if (editButton && editPopup) {
+  editButton.addEventListener("click", () => {
+    openModal(editPopup);
+  });
+}
+// Обработчик открытия попапа по кнопке +
+if (addButtonProfile && newCardPopup) {
+  addButtonProfile.addEventListener("click", () => {
+    openModal(newCardPopup);
+  });
+}
+
+// Функция открытия попапа при нажатии на картинку
+function openPopupImage(evt) {
+  if (evt.target.classList.contains("card__image")) {
+    popupTypeImage.querySelector(".popup__image").src = evt.target.src;
+    popupTypeImage.querySelector(".popup__image").alt = evt.target.alt;
+    popupTypeImage.querySelector(".popup__caption").textContent =
+      evt.target.alt;
+    openModal(popupTypeImage);
+  }
+}
+// Обработчик открытия попапа при нажатии на картинку
+document.addEventListener("click", openPopupImage);
+
+// Функция закрытия попапа при клике на оверлей
+function closePopupByOverlay(evt) {
+  if (evt.target.classList.contains("popup")) {
+    closeModal(evt.target);
+  }
+}
+
+//Обработчик для попапов
+document.querySelectorAll(".popup").forEach((popupElement) => {
+  popupElement.addEventListener("mousedown", closePopupByOverlay);
+});
+
+//Закрытие попапа
+document.querySelectorAll(".popup__close").forEach((closeButton) => {
+  const popup = closeButton.closest(".popup");
+  if (popup) {
+    closeButton.addEventListener("click", () => {
+      closeModal(popup);
+    });
+  }
 });
