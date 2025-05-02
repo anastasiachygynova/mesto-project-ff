@@ -74,24 +74,13 @@ function openPopupImage(evt) {
 // Обработчик открытия попапа при нажатии на картинку
 document.addEventListener("click", openPopupImage);
 
-// Функция закрытия попапа при клике на оверлей
-function closePopupByOverlay(evt) {
-  if (evt.target.classList.contains("popup")) {
-    closeModal(evt.target);
-  }
-}
 
-//Обработчик для попапов
+// Обработчик закрытия попапов
 document.querySelectorAll(".popup").forEach((popupElement) => {
-  popupElement.addEventListener("mousedown", closePopupByOverlay);
-});
-
-//Закрытие попапа
-document.querySelectorAll(".popup__close").forEach((closeButton) => {
-  const popup = closeButton.closest(".popup");
-  if (popup) {
-    closeButton.addEventListener("click", () => {
-      closeModal(popup);
-    });
-  }
+  popupElement.addEventListener("mousedown", (evt) => {
+    if (evt.target.classList.contains("popup") ||
+      evt.target.classList.contains("popup__close")) {
+      closeModal(popupElement);
+    }
+  });
 });
