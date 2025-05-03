@@ -22,6 +22,8 @@ const popupTypeImage = document.querySelector(".popup_type_image");
 const formElement = document.querySelector(".popup__form");
 const nameInput = formElement.querySelector(".popup__input_type_name");
 const jobInput = formElement.querySelector(".popup__input_type_description");
+const profileName = document.querySelector(".profile__title");
+const profileDescript = document.querySelector(".profile__description"); 
 
 // Функция создлания карточек 
 function createCards(cardDetails, deleteCallback) {
@@ -52,12 +54,20 @@ initialCards.forEach((cardDetails) => {
   placesList.append(cardItems);
 });
 
+// Функция для заполнения полей формы текущими значениями при открытии попапа
+function fillProfileFormInputs() {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileDescript.textContent;
+}
+
 // Обработчик открытия попапа по кнопке редактировать
 if (editButton && editPopup) {
   editButton.addEventListener("click", () => {
+    fillProfileFormInputs(); // Заполняем поля формы перед открытием
     openModal(editPopup);
   });
 }
+
 // Обработчик открытия попапа по кнопке +
 if (addButtonProfile && newCardPopup) {
   addButtonProfile.addEventListener("click", () => {
@@ -75,6 +85,7 @@ function openPopupImage(evt) {
     openModal(popupTypeImage);
   }
 }
+
 // Обработчик открытия попапа при нажатии на картинку
 document.addEventListener("click", openPopupImage);
 
@@ -90,11 +101,16 @@ document.querySelectorAll(".popup").forEach((popupElement) => {
   });
 });
 
-nameInput.value = "Жак-Ив Кусто";
-jobInput.value = "Исследователь океана";
-
+// Обработчик отправки формы редактирования профиля
 function handleFormSubmit(evt) {
-  evt.preventDefault();
+  evt.preventDefault(); 
+  const nameValue = nameInput.value;
+  const jobValue = jobInput.value;
+  
+  profileName.textContent = nameValue;
+  profileDescript.textContent = jobValue;
+  
+  closeModal(editPopup);
 }
-
+// Обработчик отправки формы
 formElement.addEventListener("submit", handleFormSubmit);
