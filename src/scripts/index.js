@@ -25,7 +25,7 @@ const jobInput = formElement.querySelector(".popup__input_type_description");
 const profileName = document.querySelector(".profile__title");
 const profileDescript = document.querySelector(".profile__description"); 
 
-// Функция создлания карточек 
+// Функция создания карточек 
 function createCards(cardDetails, deleteCallback) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardItems = cardTemplate.querySelector(".card").cloneNode(true);
@@ -63,7 +63,7 @@ function fillProfileFormInputs() {
 // Обработчик открытия попапа по кнопке редактировать
 if (editButton && editPopup) {
   editButton.addEventListener("click", () => {
-    fillProfileFormInputs(); // Заполняем поля формы перед открытием
+    fillProfileFormInputs(); 
     openModal(editPopup);
   });
 }
