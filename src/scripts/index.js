@@ -19,7 +19,11 @@ const newCardPopup = document.querySelector(".popup_type_new-card");
 const addButtonProfile = document.querySelector(".profile__add-button");
 const popup = document.querySelector(".popup");
 const popupTypeImage = document.querySelector(".popup_type_image");
+const formElement = document.querySelector(".popup__form");
+const nameInput = formElement.querySelector(".popup__input_type_name");
+const jobInput = formElement.querySelector(".popup__input_type_description");
 
+// Функция создлания карточек 
 function createCards(cardDetails, deleteCallback) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardItems = cardTemplate.querySelector(".card").cloneNode(true);
@@ -74,13 +78,23 @@ function openPopupImage(evt) {
 // Обработчик открытия попапа при нажатии на картинку
 document.addEventListener("click", openPopupImage);
 
-
 // Обработчик закрытия попапов
 document.querySelectorAll(".popup").forEach((popupElement) => {
   popupElement.addEventListener("mousedown", (evt) => {
-    if (evt.target.classList.contains("popup") ||
-      evt.target.classList.contains("popup__close")) {
+    if (
+      evt.target.classList.contains("popup") ||
+      evt.target.classList.contains("popup__close")
+    ) {
       closeModal(popupElement);
     }
   });
 });
+
+nameInput.value = "Жак-Ив Кусто";
+jobInput.value = "Исследователь океана";
+
+function handleFormSubmit(evt) {
+  evt.preventDefault();
+}
+
+formElement.addEventListener("submit", handleFormSubmit);
