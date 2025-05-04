@@ -24,3 +24,43 @@ export const initialCards = [
       link: "https://images.unsplash.com/photo-1740896552919-6500379b85e2?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     }
 ];
+
+
+// Функция создания карточек
+export const createCards = (cardDetails, deleteCallback, likeCallback, imageViewCallback) => {
+  const cardTemplate = document.querySelector("#card-template").content;
+  const cardItems = cardTemplate.querySelector(".card").cloneNode(true);
+  const imageCard = cardItems.querySelector(".card__image");
+  const buttonDelete = cardItems.querySelector(".card__delete-button");
+  const cardTitle = cardItems.querySelector(".card__title");
+  const likeButton = cardItems.querySelector(".card__like-button");
+
+  cardTitle.textContent = cardDetails.name;
+  imageCard.alt = cardDetails.name;
+  imageCard.src = cardDetails.link;
+
+  buttonDelete.addEventListener("click", (event) => {
+    deleteCallback(cardItems);
+  });
+
+  likeButton.addEventListener("click", () => {
+    likeCallback(likeButton);
+  });
+
+  if (imageViewCallback) {
+    imageCard.addEventListener("click", () => {
+      imageViewCallback(cardDetails);
+    });
+  }
+
+  return cardItems;
+}
+
+export const deleteCards = (cardItems) => {
+  cardItems.remove();
+}
+
+// Функция обработки лайка
+export const handleLikeCard = (likeButton) => {
+  likeButton.classList.toggle("card__like-button_is-active");
+}
