@@ -15,4 +15,3 @@ function handleEscape(evt) {
     closeModal(popup);
   }
 }
-

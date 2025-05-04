@@ -1,12 +1,3 @@
-// @todo: Темплейт карточки
-
-// @todo: DOM узлы
-
-// @todo: Функция создания карточки
-
-// @todo: Функция удаления карточки
-
-// @todo: Вывести карточки на страницу
 import "../pages/index.css";
 import { initialCards } from "./cards.js";
 import { openModal, closeModal } from "../components/modal.js";
@@ -87,7 +78,7 @@ function openPopupImage(evt) {
   }
 }
 
-// Функция для заполнения полей формы текущими значениями при открытии попа
+// Функция для заполнения полей формы текущими значениями при открытии попапа
 function fillProfileFormInputs() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescript.textContent;
@@ -122,7 +113,7 @@ function handleFormSubmit(evt) {
 // Обработчик отправки формы
 formElement.addEventListener("submit", handleFormSubmit);
 
-// Функция добавление карточки
+// Функция добавления новой карточки
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
 
@@ -138,7 +129,7 @@ function handleCardFormSubmit(evt) {
   closeModal(newCardPopup);
 }
 
-// Обработчик отправки формы добавления карточки
+// Обработчик отправки формы добавления новой карточки
 newCardForm.addEventListener("submit", handleCardFormSubmit);
 
 // Функция обработки лайка
