@@ -16,9 +16,9 @@ const addButtonProfile = document.querySelector(".profile__add-button");
 const popupTypeImage = document.querySelector(".popup_type_image");
 const popupImage = popupTypeImage.querySelector(".popup__image");
 const popupCaption = popupTypeImage.querySelector(".popup__caption");
-const formElement = document.querySelector(".popup__form");
-const nameInput = formElement.querySelector(".popup__input_type_name");
-const jobInput = formElement.querySelector(".popup__input_type_description");
+const submitForm = document.querySelector(".popup__form");
+const nameInput = submitForm.querySelector(".popup__input_type_name");
+const jobInput = submitForm.querySelector(".popup__input_type_description");
 const profileName = document.querySelector(".profile__title");
 const profileDescript = document.querySelector(".profile__description");
 const newCardForm = document.querySelector(".popup_type_new-card .popup__form");
@@ -73,7 +73,7 @@ document.querySelectorAll(".popup").forEach((popupElement) => {
 });
 
 // Функция отправки формы редактирования профиля
-const handleFormSubmit = (evt) => {
+const editProfileForm = (evt) => {
   evt.preventDefault();
   const nameValue = nameInput.value;
   const jobValue = jobInput.value;
@@ -84,7 +84,7 @@ const handleFormSubmit = (evt) => {
   closeModal(editPopup);
 };
 // Обработчик отправки формы
-formElement.addEventListener("submit", handleFormSubmit);
+submitForm.addEventListener("submit", editProfileForm);
 
 // Функция добавления новой карточки
 const handleNewCardForm = (evt) => {
