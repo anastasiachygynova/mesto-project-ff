@@ -1,11 +1,7 @@
 import "../pages/index.css";
-import {
-  initialCards,
-  createCards,
-  deleteCards,
-  handleLikeCard,
-} from "./cards.js";
+import { initialCards } from "./cards.js";
 import { openModal, closeModal } from "../components/modal.js";
+import { createCards, deleteCards, handleLikeCard } from "./card.js";
 
 // DOM элементы
 const editPopup = document.querySelector(".popup_type_edit");
@@ -18,7 +14,9 @@ const popupImage = popupTypeImage.querySelector(".popup__image");
 const popupCaption = popupTypeImage.querySelector(".popup__caption");
 const submitProfileForm = document.querySelector(".popup__form");
 const nameInput = submitProfileForm.querySelector(".popup__input_type_name");
-const jobInput = submitProfileForm.querySelector(".popup__input_type_description");
+const jobInput = submitProfileForm.querySelector(
+  ".popup__input_type_description"
+);
 const profileName = document.querySelector(".profile__title");
 const profileDescript = document.querySelector(".profile__description");
 const newCardForm = document.querySelector(".popup_type_new-card .popup__form");
@@ -35,7 +33,12 @@ const handleImageView = (cardData) => {
 
 // Инициализация карточек
 initialCards.forEach((cardDetails) => {
-  const cardItems = createCards(cardDetails, deleteCards, handleLikeCard, handleImageView);
+  const cardItems = createCards(
+    cardDetails,
+    deleteCards,
+    handleLikeCard,
+    handleImageView
+  );
   placesList.append(cardItems);
 });
 
@@ -93,7 +96,12 @@ const handleNewCardForm = (evt) => {
   const name = cardNameInput.value;
   const link = cardLinkInput.value;
 
-  const newCard = createCards({ name, link }, deleteCards, handleLikeCard, handleImageView);
+  const newCard = createCards(
+    { name, link },
+    deleteCards,
+    handleLikeCard,
+    handleImageView
+  );
 
   placesList.prepend(newCard);
 
