@@ -2,6 +2,11 @@ import "../pages/index.css";
 import { initialCards } from "./cards.js";
 import { openModal, closeModal } from "../components/modal.js";
 import { createCards, deleteCards, handleLikeCard } from "./card.js";
+import {
+  enableValidation,
+  hideInputError,
+  toggleButtonState,
+} from "./validation.js";
 
 // DOM элементы
 const editPopup = document.querySelector(".popup_type_edit");
@@ -22,6 +27,18 @@ const profileDescript = document.querySelector(".profile__description");
 const newCardForm = document.querySelector(".popup_type_new-card .popup__form");
 const cardNameInput = newCardForm.querySelector(".popup__input_type_card-name");
 const cardLinkInput = newCardForm.querySelector(".popup__input_type_url");
+
+// Функция для очистки валидации формы
+function clearValidation(formElement) {
+  const inputs = formElement.querySelectorAll(".popup__input");
+  const buttonElement = formElement.querySelector(".popup__button");
+
+  inputs.forEach((input) => {
+    hideInputError(formElement, input);
+  });
+
+  toggleButtonState(Array.from(inputs), buttonElement);
+}
 
 // Функция для просмотра изображения карточки
 const handleImageView = (cardData) => {
@@ -54,15 +71,7 @@ if (editButton && editPopup) {
 if (addButtonProfile && newCardPopup) {
   addButtonProfile.addEventListener("click", () => {
     newCardForm.reset();
-    // Сделала кнопку неактивной
-    const buttonElement = newCardForm.querySelector(".popup__button");
-    buttonElement.disabled = true;
-    buttonElement.classList.add("popup__button_inactive");
-    // Сброс сообщения об ошибках
-    const inputs = newCardForm.querySelectorAll(".popup__input");
-    inputs.forEach((input) => {
-      hideInputError(newCardForm, input);
-    });
+    clearValidation(newCardForm);
     openModal(newCardPopup);
   });
 }
@@ -71,12 +80,7 @@ if (addButtonProfile && newCardPopup) {
 const fillProfileFormInputs = () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescript.textContent;
-  const inputs = submitProfileForm.querySelectorAll(".popup__input");
-  inputs.forEach((input) => {
-    hideInputError(submitProfileForm, input);
-  });
-  const buttonElement = submitProfileForm.querySelector(".popup__button");
-  toggleButtonState(Array.from(inputs), buttonElement);
+  clearValidation(submitProfileForm);
 };
 
 // Обработчик закрытия попапов
@@ -120,86 +124,19 @@ const handleNewCardForm = (evt) => {
   );
 
   placesList.prepend(newCard);
-
   newCardForm.reset();
-
-  const buttonElement = newCardForm.querySelector(".popup__button");
-  buttonElement.disabled = true;
-  buttonElement.classList.add("popup__button_inactive");
-
+  clearValidation(newCardForm);
   closeModal(newCardPopup);
 };
 
 // Обработчик отправки формы добавления новой карточки
 newCardForm.addEventListener("submit", handleNewCardForm);
 
-const showInputError = (submitProfileForm, formInput, errorMessage) => {
-  const errorElement = submitProfileForm.querySelector(
-    `.${formInput.id}-error`
-  );
-  formInput.classList.add("popup__input_type_error");
-  if (errorElement) {
-    errorElement.textContent = errorMessage;
-  }
-};
-const hideInputError = (submitProfileForm, formInput) => {
-  const errorElement = submitProfileForm.querySelector(
-    `.${formInput.id}-error`
-  );
-  formInput.classList.remove("popup__input_type_error");
-  if (errorElement) {
-    errorElement.textContent = "";
-  }
-};
-
-const isValid = (submitProfileForm, formInput) => {
-  formInput.setCustomValidity("");
-  if (formInput.validity.patternMismatch) {
-    formInput.setCustomValidity(formInput.dataset.errorMessage);
-  }
-  if (!formInput.validity.valid) {
-    showInputError(submitProfileForm, formInput, formInput.validationMessage);
-  } else {
-    hideInputError(submitProfileForm, formInput);
-  }
-};
-
-const setEventListeners = (submitProfileForm) => {
-  const inputList = Array.from(
-    submitProfileForm.querySelectorAll(".popup__input")
-  );
-  const buttonElement = submitProfileForm.querySelector(".popup__button");
-
-  inputList.forEach((formInput) => {
-    formInput.addEventListener("input", () => {
-      isValid(submitProfileForm, formInput);
-      toggleButtonState(inputList, buttonElement);
-    });
-  });
-};
-
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(".popup__form"));
-
-  formList.forEach((submitProfileForm) => {
-    setEventListeners(submitProfileForm);
-  });
-};
-
-enableValidation();
-
-const hasInvalidInput = (inputList) => {
-  return inputList.some((formInput) => {
-    return !formInput.validity.valid;
-  });
-};
-
-const toggleButtonState = (inputList, buttonElement) => {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.disabled = true;
-    buttonElement.classList.add("popup__button_inactive");
-  } else {
-    buttonElement.disabled = false;
-    buttonElement.classList.remove("popup__button_inactive");
-  }
-};
+enableValidation({
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_inactive",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+});
