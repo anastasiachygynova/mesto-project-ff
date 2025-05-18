@@ -1,40 +1,57 @@
+import { deleteCardServer } from "./api.js";
+
 // Функция создания карточек
 export const createCards = (
-  cardDetails,
-  deleteCallback,
-  likeCallback,
-  imageViewCallback
+  cardData,
+  deleteCards,
+  handleLikeCard,
+  handleImageView,
+  userId
 ) => {
+  
+
   const cardTemplate = document.querySelector("#card-template").content;
-  const cardItems = cardTemplate.querySelector(".card").cloneNode(true);
-  const imageCard = cardItems.querySelector(".card__image");
-  const buttonDelete = cardItems.querySelector(".card__delete-button");
-  const cardTitle = cardItems.querySelector(".card__title");
-  const likeButton = cardItems.querySelector(".card__like-button");
+  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
-  cardTitle.textContent = cardDetails.name;
-  imageCard.alt = cardDetails.name;
-  imageCard.src = cardDetails.link;
+  const cardImage = cardElement.querySelector(".card__image");
+  const cardTitle = cardElement.querySelector(".card__title");
 
-  buttonDelete.addEventListener("click", (event) => {
-    deleteCallback(cardItems);
-  });
+  cardImage.src = cardData.link;
+  cardImage.alt = cardData.name;
+  cardTitle.textContent = cardData.name;
 
-  likeButton.addEventListener("click", () => {
-    likeCallback(likeButton);
-  });
+  cardImage.addEventListener("click", () => handleImageView(cardData));
 
-  if (imageViewCallback) {
-    imageCard.addEventListener("click", () => {
-      imageViewCallback(cardDetails);
-    });
+  const isOwner = cardData.owner._id === userId;
+  
+  if (!isOwner) {
+    const deleteButton = cardElement.querySelector(".card__delete-button");
+    if (deleteButton) {
+      deleteButton.style.display = "none";
+    }
   }
 
-  return cardItems;
+  if (isOwner) {
+    const deleteButton = cardElement.querySelector(".card__delete-button");
+    if (deleteButton) {
+      deleteButton.addEventListener("click", () => {
+        deleteCards(cardElement, cardData._id);
+      });
+    }
+  }
+
+  return cardElement;
 };
 
-export const deleteCards = (cardItems) => {
-  cardItems.remove();
+export const deleteCards = (cardElement, cardId) => {
+  deleteCardServer(cardId)
+    .then(() => {
+      console.log("Карточка удалена с сервера");
+      cardElement.remove();
+    })
+    .catch((error) => {
+      console.error("Ошибка при удалении карточки:", error);
+    });
 };
 
 // Функция обработки лайка
