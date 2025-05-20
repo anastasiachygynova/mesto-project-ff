@@ -5,8 +5,8 @@ const config = {
     'Content-Type': 'application/json'
   }
 }
-
-function checkResponse(res) {
+// Функция обработки ответов от сервера
+const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
@@ -28,7 +28,7 @@ export const getInitialCards = () => {
   })
     .then(checkResponse);
 }
-
+// Редактирование профиля
 export const updateUserInfo = (userData) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
@@ -58,6 +58,36 @@ export const deleteCardServer = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
+  })
+  .then(checkResponse);
+};
+
+// Лайк поставлен
+export const addLike = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: config.headers
+  })
+  .then(checkResponse);
+};
+
+// Лайк снят
+export const removeLike = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers
+  })
+  .then(checkResponse);
+};
+
+// Смена аватара
+export const updateAvatar = (avatarUrl) => {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: avatarUrl
+    })
   })
   .then(checkResponse);
 };

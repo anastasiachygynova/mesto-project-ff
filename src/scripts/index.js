@@ -7,6 +7,7 @@ import {
   getInitialCards,
   updateUserInfo,
   addNewCard,
+  updateAvatar,
 } from "./api.js";
 
 // DOM элементы
@@ -23,13 +24,19 @@ const nameInput = submitProfileForm.querySelector(".popup__input_type_name");
 const jobInput = submitProfileForm.querySelector(
   ".popup__input_type_description"
 );
+
 const profileName = document.querySelector(".profile__title");
 const profileDescript = document.querySelector(".profile__description");
 const profileImage = document.querySelector(".profile__image");
 const newCardForm = document.querySelector(".popup_type_new-card .popup__form");
 const cardNameInput = newCardForm.querySelector(".popup__input_type_card-name");
 const cardLinkInput = newCardForm.querySelector(".popup__input_type_url");
+const avatarPopup = document.querySelector(".popup__type__avatar");
+const avatarForm = avatarPopup.querySelector(".popup__form");
+const avatarLinkInput = avatarForm.querySelector(".popup__input_type_url");
+
 let currentUserId;
+
 // Объект с настройками валидации
 const validationConfig = {
   formSelector: ".popup__form",
@@ -40,7 +47,7 @@ const validationConfig = {
   errorClass: "popup__error_visible",
 };
 
-// Функция для загрузки всех данных
+// Функция для загрузки данных
 const loadPageData = () => {
   Promise.all([getUserInfo(), getInitialCards()])
     .then(([userData, cards]) => {
@@ -155,7 +162,7 @@ const handleNewCardForm = (evt) => {
     link: cardLinkInput.value,
   };
 
-  // Отправляем данные на сервер
+  // Добавить данные на сервер
   addNewCard(cardData)
     .then((card) => {
       const newCard = createCards(
@@ -181,3 +188,29 @@ newCardForm.addEventListener("submit", handleNewCardForm);
 
 // Включение валидации форм
 enableValidation(validationConfig);
+
+// Обработчик клика по аватару
+profileImage.addEventListener("click", () => {
+  avatarForm.reset();
+  clearValidation(avatarForm, validationConfig);
+  openModal(avatarPopup);
+});
+
+// Функция отправки формы смены аватара
+const handleAvatarFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  const avatarUrl = avatarLinkInput.value;
+
+  updateAvatar(avatarUrl)
+    .then((userData) => {
+      profileImage.style.backgroundImage = `url(${userData.avatar})`;
+      closeModal(avatarPopup);
+    })
+    .catch((error) => {
+      console.error("Ошибка при смене аватара:", error);
+    });
+};
+
+// Обработчик отправки формы смены аватара
+avatarForm.addEventListener("submit", handleAvatarFormSubmit);
