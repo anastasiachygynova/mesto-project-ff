@@ -34,6 +34,9 @@ const cardLinkInput = newCardForm.querySelector(".popup__input_type_url");
 const avatarPopup = document.querySelector(".popup__type__avatar");
 const avatarForm = avatarPopup.querySelector(".popup__form");
 const avatarLinkInput = avatarForm.querySelector(".popup__input_type_url");
+const profileSubmitButton = submitProfileForm.querySelector(".popup__button");
+const newCardSubmitButton = newCardForm.querySelector(".popup__button");
+const avatarSubmitButton = avatarForm.querySelector(".popup__button");
 
 let currentUserId;
 
@@ -45,6 +48,21 @@ const validationConfig = {
   inactiveButtonClass: "popup__button_inactive",
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
+};
+
+const handleSubmit = (button, loadingText, action) => {
+  const originalText = button.textContent;
+  button.textContent = loadingText;
+  button.disabled = true;
+
+  // Промис для задержки кнопки «Сохранение...»
+  const minDelay = new Promise((resolve) => setTimeout(resolve, 500));
+  const actionPromise = action();
+  Promise.all([actionPromise, minDelay]).finally(() => {
+    button.textContent = originalText;
+    button.disabled = false;
+  });
+  return actionPromise;
 };
 
 // Функция для загрузки данных
@@ -139,15 +157,16 @@ const editProfileForm = (evt) => {
     about: jobInput.value,
   };
 
-  updateUserInfo(userData)
-    .then((userData) => {
-      profileName.textContent = userData.name;
-      profileDescript.textContent = userData.about;
-      closeModal(editPopup);
-    })
-    .catch((error) => {
-      console.error("Ошибка при обновлении профиля:", error);
-    });
+  handleSubmit(profileSubmitButton, "Сохранение...", () =>
+    updateUserInfo(userData)
+  ).then((userData) => {
+    profileName.textContent = userData.name;
+    profileDescript.textContent = userData.about;
+    closeModal(editPopup);
+  })
+  .catch((error) => {
+    console.error("Ошибка при обновлении профиля:", error);
+  });
 };
 
 // Обработчик отправки формы
@@ -163,7 +182,7 @@ const handleNewCardForm = (evt) => {
   };
 
   // Добавить данные на сервер
-  addNewCard(cardData)
+  handleSubmit(newCardSubmitButton, "Сохранение...", () => addNewCard(cardData))
     .then((card) => {
       const newCard = createCards(
         card,
@@ -202,7 +221,9 @@ const handleAvatarFormSubmit = (evt) => {
 
   const avatarUrl = avatarLinkInput.value;
 
-  updateAvatar(avatarUrl)
+  handleSubmit(avatarSubmitButton, "Сохранение...", () =>
+    updateAvatar(avatarUrl)
+  )
     .then((userData) => {
       profileImage.style.backgroundImage = `url(${userData.avatar})`;
       closeModal(avatarPopup);
