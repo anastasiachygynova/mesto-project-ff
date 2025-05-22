@@ -78,9 +78,7 @@ const loadPageData = () => {
         profileDescript.textContent = userData.about || "Занятие";
       }
       if (profileImage) {
-        profileImage.style.backgroundImage = `url(${
-          userData.avatar || "../images/avatar.jpg"
-        })`;
+        profileImage.style.backgroundImage = `url(${userData.avatar})`; // Убираем проверку на дефолтный аватар
       }
       cards.forEach((cardDetails) => {
         const cardItems = createCards(
@@ -159,14 +157,15 @@ const editProfileForm = (evt) => {
 
   handleSubmit(profileSubmitButton, "Сохранение...", () =>
     updateUserInfo(userData)
-  ).then((userData) => {
-    profileName.textContent = userData.name;
-    profileDescript.textContent = userData.about;
-    closeModal(editPopup);
-  })
-  .catch((error) => {
-    console.error("Ошибка при обновлении профиля:", error);
-  });
+  )
+    .then((userData) => {
+      profileName.textContent = userData.name;
+      profileDescript.textContent = userData.about;
+      closeModal(editPopup);
+    })
+    .catch((error) => {
+      console.error("Ошибка при обновлении профиля:", error);
+    });
 };
 
 // Обработчик отправки формы
@@ -226,6 +225,8 @@ const handleAvatarFormSubmit = (evt) => {
   )
     .then((userData) => {
       profileImage.style.backgroundImage = `url(${userData.avatar})`;
+      avatarForm.reset();
+      clearValidation(avatarForm, validationConfig);
       closeModal(avatarPopup);
     })
     .catch((error) => {
