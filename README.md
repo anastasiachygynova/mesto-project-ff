@@ -1,12 +1,12 @@
 ## About Me
 
- I am a beginner frontend developer
+Hello :) I am a beginner frontend developer
 
 ## My Skills
 
 <img src="https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=fff"> 
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000"> 
 <img src="https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white"> 
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000"> 
 
 ## GitHub Stats
 
@@ -17,5 +17,4 @@
 <img align="center" src="https://readme-stats-fork-mauve.vercel.app/api/top-langs/?username=anastasiachygynova&theme=dark&hide_border=false&no-bg=true&no-frame=true&langs_count=6"></td></tr></tbody></table>
 
 ## Connect with me
-
- Email: anastasiachygynova1994@gmail.com</p>
+Email: anastasiachygynova1994@gmail.com</p>
