@@ -1,15 +1,21 @@
-# Проектная работа Mesto
+## About Me
 
-### Hi there 👋, my name is Anastasia
-#### I am a beginner frontend developer
-![I am a beginner frontend developer](https://img.freepik.com/premium-vector/software-development-programming-coding-computer-concept-vector-illustration_402975-24.jpg)
+ I am a beginner frontend developer
 
+## My Skills
 
-Skills: JS / HTML / CSS
+<img src="https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=fff"> 
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000"> 
+<img src="https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white"> 
 
-- 🔭 I’m currently working on this page. 
+## GitHub Stats
 
+<table><tbody><tr border="none"><td width="50%" align="center">
+<img align="center" src="https://readme-stats-fork-mauve.vercel.app/api/?username=anastasiachygynova&theme=dark&show_icons=true&count_private=true">
 
+<img alt="Mark streak" src="https://github-readme-streak-stats-five-roan.vercel.app?user=anastasiachygynova&theme=dark"></td><td width="50%" align="center">
+<img align="center" src="https://readme-stats-fork-mauve.vercel.app/api/top-langs/?username=anastasiachygynova&theme=dark&hide_border=false&no-bg=true&no-frame=true&langs_count=6"></td></tr></tbody></table>
 
+## Connect with me
 
-https://anastasiachygynova.github.io/mesto-project-ff/
+ Email: anastasiachygynova1994@gmail.com</p>
